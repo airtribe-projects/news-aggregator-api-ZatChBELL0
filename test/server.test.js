@@ -6,8 +6,8 @@ const server = supertest(app);
 const mockUser = {
     name: 'Clark Kent',
     email: 'clark@superman.com',
-    password: 'Krypt()n8',
-    preferences:['movies', 'comics']
+    password: 'Krypton8',
+    preferences: ['movies', 'comics']
 };
 
 let token = '';
@@ -50,6 +50,13 @@ tap.test('POST /users/login with wrong password', async (t) => {
 });
 
 // Preferences tests
+
+tap.test('Reset preferences to initial state', async (t) => {
+    await server.put('/users/preferences').set('Authorization', `Bearer ${token}`).send({
+        preferences: mockUser.preferences
+    });
+    t.end();
+});
 
 tap.test('GET /users/preferences', async (t) => {
     const response = await server.get('/users/preferences').set('Authorization', `Bearer ${token}`);
